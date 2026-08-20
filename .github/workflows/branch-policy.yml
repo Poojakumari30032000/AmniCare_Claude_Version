@@ -1,0 +1,32 @@
+name: Branch Policy
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch name
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          PATTERN='^(feature|bugfix|hotfix|chore)/[A-Z][A-Z0-9]+-[0-9]+(-[a-z0-9]+)*$'
+          if [[ ! "$BRANCH" =~ $PATTERN ]]; then
+            echo "::error::Invalid branch name '$BRANCH'"
+            echo "Expected: feature/PROJ-123-short-description"
+            exit 1
+          fi
+          echo "OK: $BRANCH"
+
+      - name: Validate PR target
+        env:
+          BASE: ${{ github.base_ref }}
+          HEAD: ${{ github.head_ref }}
+        run: |
+          if [[ "$BASE" == "main" && "$HEAD" != "development" && ! "$HEAD" =~ ^hotfix/ ]]; then
+            echo "::error::PRs into main must come from 'development' or a hotfix/* branch"
+            exit 1
+          fi
+          echo "OK: $HEAD -> $BASE"
