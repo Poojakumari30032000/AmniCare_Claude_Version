@@ -24,12 +24,12 @@ jobs:
             echo ""
             echo "Expected: <type>/<JIRA-KEY>-<slug>"
             echo "  type    : feature | bugfix | hotfix | chore"
-            echo "  JIRA-KEY: uppercase ticket key, e.g. AMNI-142"
+            echo "  JIRA-KEY: uppercase ticket key, e.g. KAN-142"
             echo "  slug    : lowercase words separated by hyphens"
             echo ""
             echo "Examples:"
-            echo "  feature/AMNI-142-add-user-auth"
-            echo "  bugfix/AMNI-88-fix-token-refresh"
+            echo "  feature/KAN-142-add-user-auth"
+            echo "  bugfix/KAN-88-fix-token-refresh"
             exit 1
           fi
 
